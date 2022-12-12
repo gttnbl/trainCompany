@@ -14,12 +14,13 @@ import traincompany.dtos.Output;
 import traincompany.dtos.TripsOutput;
 import traincompany.service.TrainService;
 
-
 public class TrainServiceTest {
 
 	TrainService trainService = new TrainService();
 
-	static String data;
+	static String dataInput;
+	static String dataOutput;
+
 	static String stationA;
 	static String stationB;
 	static String stationC;
@@ -89,7 +90,7 @@ public class TrainServiceTest {
 		out2.setTrips(trips2);
 		outputs.add(out1);
 		outputs.add(out2);
-		data = "{\r\n" + "  \"taps\": [\r\n" + "    {\r\n" + "	  \"unixTimestamp\": 1572242400,\r\n"
+		dataInput = "{\r\n" + "  \"taps\": [\r\n" + "    {\r\n" + "	  \"unixTimestamp\": 1572242400,\r\n"
 				+ "	  \"customerId\": 1,\r\n" + "	  \"station\": \"A\"\r\n" + "	},\r\n" + "	{\r\n"
 				+ "	  \"unixTimestamp\": 1572244200,\r\n" + "	  \"customerId\": 1,\r\n"
 				+ "	  \"station\": \"D\"\r\n" + "	},\r\n" + "	{\r\n" + "	  \"unixTimestamp\": 1572282000,\r\n"
@@ -102,6 +103,9 @@ public class TrainServiceTest {
 				+ "	  \"unixTimestamp\": 1572282000,\r\n" + "	  \"customerId\": 2,\r\n"
 				+ "	  \"station\": \"D\"\r\n" + "	},\r\n" + "	{\r\n" + "	  \"unixTimestamp\": 1572283800,\r\n"
 				+ "	  \"customerId\": 2,\r\n" + "	  \"station\": \"A\"\r\n" + "	}\r\n" + "  ]\r\n" + "}";
+
+		dataOutput = "[{\"customerId\":1,\"totalCostInCents\":480,\"trips\":[{\"stationStart\":\"A\",\"startedJourneyAt\":1572242400,\"costInCents\":240,\"zoneFrom\":1,\"zoneTo\":2},{\"stationEnd\":\"A\",\"startedJourneyAt\":1572282000,\"costInCents\":240,\"zoneFrom\":2,\"zoneTo\":1}]},{\"customerId\":2,\"totalCostInCents\":480,\"trips\":[{\"stationStart\":\"A\",\"startedJourneyAt\":1572242400,\"costInCents\":240,\"zoneFrom\":1,\"zoneTo\":2},{\"stationEnd\":\"A\",\"startedJourneyAt\":1572282000,\"costInCents\":240,\"zoneFrom\":2,\"zoneTo\":1}]}]";
+
 	}
 
 	@AfterAll
@@ -110,27 +114,16 @@ public class TrainServiceTest {
 	}
 
 	@Test
-	void readFile() {
-		System.out.println("**--- Test method1 executed ---**");
-	}
-
-	@Test
 	void manipulateData() {
-		System.out.println("**--- Test method1 executed ---**");
-
-		List<Output> outs = trainService.manipulateData(data);
+		System.out.println("**--- Test manipulateData executed ---**");
+		List<Output> outs = trainService.manipulateData(dataInput);
 		assertEquals(outs.get(0), outputs.get(0));
 		assertEquals(outs.get(1), outputs.get(1));
 	}
 
 	@Test
-	void prepareOutput() {
-		System.out.println("**--- Test method1 executed ---**");
-	}
-
-	@Test
 	void calculateCosts() {
-		System.out.println("**--- Test method1 executed ---**");
+		System.out.println("**--- Test calculateCosts executed ---**");
 		long cost = trainService.calculateCosts(1l, 3l);
 		assertEquals(cost, 280l);
 
@@ -138,12 +131,14 @@ public class TrainServiceTest {
 
 	@Test
 	void getZone() {
+		System.out.println("**--- Test getZone executed ---**");
 		List<Long> zones = trainService.getZone(stationA);
 		assertEquals(1l, zones.get(0));
 	}
 
 	@Test
 	void getZoneByCosts() {
+		System.out.println("**--- Test getZoneByCosts executed ---**");
 		long zones = trainService.getZoneByCosts(zonesFrom, zonesTo);
 		assertEquals(2l, zones);
 
@@ -151,7 +146,9 @@ public class TrainServiceTest {
 
 	@Test
 	void WriteExportFile() {
+		System.out.println("**--- Test WriteExportFile executed ---**");
 		String json = trainService.WriteExportFile(outputs);
+		assertEquals(json, dataOutput);
 	}
 
 }
