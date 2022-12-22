@@ -16,6 +16,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                echo 'Hello, JDK'
+                sh 'java -version'
             }
         }
     }
