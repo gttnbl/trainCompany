@@ -1,11 +1,16 @@
 
 pipeline {
     agent any
-
+ environment {
+    POM_GROUP_ID = readMavenPom().getGroupId()
+    POM_VERSION = readMavenPom().getVersion()
+   
+  }
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+                 echo "$POM_GROUP_ID"
             }
         }
         stage('Test') {
