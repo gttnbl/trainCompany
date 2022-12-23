@@ -1,17 +1,27 @@
 
 pipeline {
     agent any
-
+ tools { 
+        maven 'Maven 3.3.9' 
+        jdk 'jdk8' 
+    }
     stages {
-        stage ('Print') {
+
+      
+        stage ('Initialize') {
             steps {
-                echo "Hello Devops Engineers"
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+               
             }
         }
-        
+   
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh 'mvn -Dmaven.test.failure.ignore=true install'
+                 
             }
         }
         stage('Test') {
@@ -27,4 +37,9 @@ pipeline {
             }
         }
     }
+    
+
+    
+    
+    
 }
