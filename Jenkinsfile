@@ -6,6 +6,7 @@ pipeline {
         jdk 'jdk8' 
     }
     stages {
+
       
         stage ('Initialize') {
             steps {
@@ -15,8 +16,7 @@ pipeline {
                
             }
         }
-        
-        
+   
         stage('Build') {
             steps {
                 echo 'Building..'
@@ -32,21 +32,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                echo 'Hello, JDK'
+                sh 'java -version'
             }
         }
     }
     
-      post {
-        always { 
-            echo 'I will always say Hello again!'
-        }
-        success {
-            echo 'I will say Hello only if job is success'
-        }
-        failure {
-            echo 'I will say Hello only if job is failure'
-        }
-    }
+
     
     
     
