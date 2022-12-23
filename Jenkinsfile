@@ -3,6 +3,12 @@ pipeline {
     agent any
 
     stages {
+        stage ('Print') {
+            steps {
+                echo "Hello Devops Engineers"
+            }
+        }
+        
         stage('Build') {
             steps {
                 echo 'Building..'
